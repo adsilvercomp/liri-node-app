@@ -2,7 +2,7 @@ var keyList = require("./keys.js")
 var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
 var request = require('request');
-var fs = require('fs');  
+var fs = require('fs');
 
 var command = process.argv[2];
 var tweet
@@ -163,45 +163,24 @@ function doWhatItSays() {
     if (error) {
       return console.log(error);
     }
-  
-    var dataArr = data.split(",");
-    command1=dataArr[0];
-    arg1=dataArr[1];
-    console.log(command1);
-    if(dataArr[0]==="spotify-this-song"){
 
-      process.argv[2]=command1;
-      process.argv[3]=arg1;
+    var dataArr = data.split(",");
+    command1 = dataArr[0];
+    arg1 = dataArr[1];
+  
+    if (dataArr[0] === "spotify-this-song") {
+
+      process.argv[2] = command1;
+      process.argv[3] = arg1;
       spotifyThisSong(arg1);
 
-    }else{
+    } else {
       console.log(false);
     }
   });
 }
 
 
-// function command1(arg){
-//   console.log ("command1 "+arg);
-// }
-// function command2(arg){
-//   console.log ("command2 "+arg);
-// }
-// var arr = ["command1", "x"];
-// if (arr[0] === "command1") {
-//   command1(arr[1]);
-// }
-// if (arr[0] === "command2") {
-//   command2(arr[1]);
-
-// * Title of the movie.---- Title
-// * Year the movie came out.---- Year
-// * IMDB Rating of the movie. ---- imdbRating
-// * Rotten Tomatoes Rating of the movie. Ratings[2]
-// * Country where the movie was produced.---Country
-// * Language of the movie. ---Language
-// * Plot of the movie. ---Plot
-// * Actors in the movie. ---Actors
 
 
 
