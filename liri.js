@@ -39,7 +39,7 @@ var spotify = new Spotify({
   secret: "579f6b8858d243aaac3490d68534e0fe"
 });
 
-
+//arv1 liri commands
 switch (command) {
   case "my-tweets":
     myTweets();
@@ -156,6 +156,7 @@ function movieThis() {
   });
 }
 
+//this is the do-what-it-says function
 function doWhatItSays() {
 
   fs.readFile('random.txt', 'utf8', function (error, data) {
@@ -165,10 +166,14 @@ function doWhatItSays() {
   
     var dataArr = data.split(",");
     command1=dataArr[0];
+    arg1=dataArr[1];
     console.log(command1);
     if(dataArr[0]==="spotify-this-song"){
+
       process.argv[2]=command1;
-      console.log(process.argv[2]);
+      process.argv[3]=arg1;
+      spotifyThisSong(arg1);
+
     }else{
       console.log(false);
     }
