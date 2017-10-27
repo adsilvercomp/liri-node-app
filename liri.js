@@ -2,8 +2,7 @@ var keyList = require("./keys.js")
 var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
 var request = require('request');
-var file = require('./random.txt');
-var fs = require('fs');
+var fs = require('fs');  
 
 var command = process.argv[2];
 var tweet
@@ -16,7 +15,8 @@ var songPreview;
 var album;
 var songSearch;
 var query;
-var omdbArray= [];
+var omdbArray = [];
+var switchArray = [];
 
 
 
@@ -93,16 +93,16 @@ function spotifyThisSong() {
   // songSearch = process.argv[3];
   songSearch = process.argv.splice(3);
   console.log(songSearch);
-  
-  if (songSearch.length===0){
-    songSearch= "ace of base the sign"
+
+  if (songSearch.length === 0) {
+    songSearch = "ace of base the sign"
   }
 
   spotify.search({ type: 'track', query: songSearch, limit: 1 }, function (err, data) {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
-    
+
 
     artist = data.tracks.items[0].artists[0].name;
     song = data.tracks.items[0].name;
@@ -119,50 +119,76 @@ function spotifyThisSong() {
   });
 }
 
-function movieThis(){
-  var movieName=process.argv.splice(3);
-  if (movieName.length===0){
-    movieName= "Mr. Nobody."
+function movieThis() {
+  var movieName = process.argv.splice(3);
+  if (movieName.length === 0) {
+    movieName = "Mr. Nobody."
   }
   request(queryURL = "https://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=40e9cece", function (error, response, body) {
     console.log('error:', error); // Print the error if one occurred
 
     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-    
+
     //console.log('body:', body); // Print the HTML for the Google homepage.
 
-      var info= JSON.parse(body);
-      var title=info.Title;
-      var year=info.Year;
-      var imdbRating= info.imdbRating;
-      var rottenTrating= info.Ratings[1];
-      var country= info.Country;
-      var language= info.Language;
-      var plot= info.Plot;
-      var actors= info.Actors;
+    var info = JSON.parse(body);
+    var title = info.Title;
+    var year = info.Year;
+    var imdbRating = info.imdbRating;
+    var rottenTrating = info.Ratings[1];
+    var country = info.Country;
+    var language = info.Language;
+    var plot = info.Plot;
+    var actors = info.Actors;
 
-      omdbArray.push({
-        title: title,
-        year: year,
-        imdbRating: imdbRating,
-        rottenTrating: rottenTrating,
-        country: country,
-        language: language,
-        plot: plot,
-        actors: actors
-      })
-      console.log(omdbArray);
-      
+    omdbArray.push({
+      title: title,
+      year: year,
+      imdbRating: imdbRating,
+      rottenTrating: rottenTrating,
+      country: country,
+      language: language,
+      plot: plot,
+      actors: actors
+    })
+    console.log(omdbArray);
+
   });
 }
 
-function doWhatItSays(){
-  spotifyThisSong();
-  var readMe = fs.readFileSync('readMe.txt', 'utf8');
-  readMe=process.argv;
+function doWhatItSays() {
+
+  fs.readFile('random.txt', 'utf8', function (error, data) {
+    if (error) {
+      return console.log(error);
+    }
+  
+    var dataArr = data.split(",");
+    command1=dataArr[0];
+    console.log(command1);
+    if(dataArr[0]==="spotify-this-song"){
+      process.argv[2]=command1;
+      console.log(process.argv[2]);
+    }else{
+      console.log(false);
+    }
+  });
 }
 
- 
+
+// function command1(arg){
+//   console.log ("command1 "+arg);
+// }
+// function command2(arg){
+//   console.log ("command2 "+arg);
+// }
+// var arr = ["command1", "x"];
+// if (arr[0] === "command1") {
+//   command1(arr[1]);
+// }
+// if (arr[0] === "command2") {
+//   command2(arr[1]);
+
 // * Title of the movie.---- Title
 // * Year the movie came out.---- Year
 // * IMDB Rating of the movie. ---- imdbRating
