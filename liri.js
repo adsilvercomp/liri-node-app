@@ -1,6 +1,7 @@
 var keyList = require("./keys.js")
 var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
+var request = require('request');
 var command = process.argv[2];
 var tweet
 var tweetTime
@@ -12,6 +13,7 @@ var songPreview;
 var album;
 var songSearch;
 var query;
+var omdbArray= [];
 
 
 
@@ -113,6 +115,58 @@ function spotifyThisSong() {
     console.log(process.argv[3]);
   });
 }
+
+function movieThis(){
+  var movieName=process.argv.splice(3);
+  if (movieName.length===0){
+    movieName= "Mr. Nobody."
+  }
+  request(queryURL = "https://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=40e9cece", function (error, response, body) {
+    console.log('error:', error); // Print the error if one occurred
+
+    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+    
+    //console.log('body:', body); // Print the HTML for the Google homepage.
+
+      var info= JSON.parse(body);
+      var title=info.Title;
+      var year=info.Year;
+      var imdbRating= info.imdbRating;
+      var rottenTrating= info.Ratings[1];
+      var country= info.Country;
+      var language= info.Language;
+      var plot= info.Plot;
+      var actors= info.Actors;
+
+      omdbArray.push({
+        title: title,
+        year: year,
+        imdbRating: imdbRating,
+        rottenTrating: rottenTrating,
+        country: country,
+        language: language,
+        plot: plot,
+        actors: actors
+      })
+      console.log(omdbArray);
+      
+  });
+}
+
+
+ 
+// * Title of the movie.---- Title
+// * Year the movie came out.---- Year
+// * IMDB Rating of the movie. ---- imdbRating
+// * Rotten Tomatoes Rating of the movie. Ratings[2]
+// * Country where the movie was produced.---Country
+// * Language of the movie. ---Language
+// * Plot of the movie. ---Plot
+// * Actors in the movie. ---Actors
+
+
+
+
 
 
 
