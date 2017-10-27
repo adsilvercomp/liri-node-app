@@ -6,11 +6,13 @@ var tweet
 var tweetTime
 var tweetArray = [];
 var spotifyArray = [];
-var userInput= process.argv[2];
 var artist;
 var song;
 var songPreview;
 var album;
+var songSearch;
+var query;
+
 
 
 var client = new Twitter({
@@ -28,8 +30,8 @@ var params = {
 
 //spotify info
 var spotify = new Spotify({
- id: "48dc457b4e2a451f9cac0903695fd6f2",
- secret: "579f6b8858d243aaac3490d68534e0fe"
+  id: "48dc457b4e2a451f9cac0903695fd6f2",
+  secret: "579f6b8858d243aaac3490d68534e0fe"
 });
 
 
@@ -82,51 +84,35 @@ function myTweets() {
 //This is the spotify api call
 
 
-function spotifyThisSong(){
-spotify.search({ type: 'track', query: "thriller", limit: 1 }, function(err, data) {
- if (err) {
-   return console.log('Error occurred: ' + err);
- }
-  // console.log("artist name");
-  //  console.log(data.tracks.items[0].artists);
+function spotifyThisSong() {
+  // songSearch = process.argv[3];
+  songSearch = process.argv.splice(3);
+  console.log(songSearch);
+  
+  if (songSearch.length===0){
+    songSearch= "ace of base the sign"
+  }
 
-  //  console.log("song name:");
-  //  console.log(data.tracks.items[0].name);
+  spotify.search({ type: 'track', query: songSearch, limit: 1 }, function (err, data) {
+    if (err) {
+      return console.log('Error occurred: ' + err);
+    }
+    
 
-  //  console.log("preview link of song:")
-  //  console.log(data.tracks.items[0].external_urls);
-
-  //  console.log("album name:")
-  //  console.log(data.tracks.items[0].album.name);
-
-  artist= data.tracks.items[0].artists;
-  song= data.tracks.items[0].name;
-  songPreview= data.tracks.items[0].external_urls;
-  album= data.tracks.items[0].album.name;
-  spotifyArray.push({
-    song: song,
-    songPreview: songPreview,
-    album: album,
-    artist: artist
-  })
-  console.log(spotifyArray);
-});
-
+    artist = data.tracks.items[0].artists[0].name;
+    song = data.tracks.items[0].name;
+    songPreview = data.tracks.items[0].external_urls;
+    album = data.tracks.items[0].album.name;
+    spotifyArray.push({
+      song: song,
+      songPreview: songPreview,
+      album: album,
+      artist: artist
+    })
+    console.log(spotifyArray);
+    console.log(process.argv[3]);
+  });
 }
-
-
-
-
-// Spotify 
-// Client ID:
-// 48dc457b4e2a451f9cac0903695fd6f2
-// Client Secret:
-// 579f6b8858d243aaac3490d68534e0fe
-
-
-
-
-
 
 
 
