@@ -2,6 +2,9 @@ var keyList = require("./keys.js")
 var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
 var request = require('request');
+var file = require('./random.txt');
+var fs = require('fs');
+
 var command = process.argv[2];
 var tweet
 var tweetTime
@@ -153,6 +156,11 @@ function movieThis(){
   });
 }
 
+function doWhatItSays(){
+  spotifyThisSong();
+  var readMe = fs.readFileSync('readMe.txt', 'utf8');
+  readMe=process.argv;
+}
 
  
 // * Title of the movie.---- Title
