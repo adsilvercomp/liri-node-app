@@ -57,7 +57,7 @@ switch (command) {
     doWhatItSays();
     break;
 
-  //look up switch case default block- you have to add it incase none of the cases work.
+
 }
 
 //my tweets function makes call to twitter api for tweets and console logs them.
@@ -129,7 +129,7 @@ function movieThis() {
 
     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
 
-    //console.log('body:', body); // Print the HTML for the Google homepage.
+    
 
     var info = JSON.parse(body);
     var title = info.Title;
